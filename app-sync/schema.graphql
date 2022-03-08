@@ -1,0 +1,50 @@
+schema {
+  query: Query
+  mutation: Mutation
+}
+
+type Query {
+  # Lambda Queries
+  listTodoItemsWithLambda(nextToken: String): ListTodoItems
+  getTodoItemWithLambda(id: ID!): TodoItem
+  # DynamoDB Queries
+  listTodoItemsWithDynamoDb(nextToken: String): ListTodoItems
+  getTodoItemWithDynamoDb(id: ID!): TodoItem
+}
+
+type Mutation {
+  # Lambda mutations
+  createTodoItemWithLambda(input: CreateTodoItemInput): TodoItem
+  updateTodoItemWithLambda(input: UpdateTodoItemInput): TodoItem
+  deleteTodoItemWithLambda(input: DeleteTodoItemInput): TodoItem
+  # DynamoDB mutations
+  createTodoItemWithDynamoDb(input: CreateTodoItemInput): TodoItem
+  updateTodoItemWithDynamoDb(input: UpdateTodoItemInput): TodoItem
+  deleteTodoItemWithDynamoDb(input: DeleteTodoItemInput): TodoItem
+}
+
+input CreateTodoItemInput {
+  name: String!
+  description: String
+}
+
+input UpdateTodoItemInput {
+  id: ID!
+  name: String!
+  description: String
+}
+
+input DeleteTodoItemInput {
+  id: ID!
+}
+
+type TodoItem {
+  id: ID!
+  name: String!
+  description: String
+}
+
+type ListTodoItems {
+  items: [TodoItem]!
+  nextToken: String
+}

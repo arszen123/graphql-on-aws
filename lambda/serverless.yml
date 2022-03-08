@@ -1,0 +1,49 @@
+service: serverless-todo-lambda
+frameworkVersion: '2'
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  lambdaHashingVersion: 20201221
+  tracing:
+    lambda: true
+  environment:
+    TABLE_NAME: ${self:resources.Resources.TodoTable.Properties.TableName}
+    ENVIRONMENT: ${opt:stage, 'dev'}
+  iam:
+    role:
+      statements:
+        - Effect: "Allow"
+          Action:
+            - "dynamodb:*"
+          Resource:
+            Fn::GetAtt: [TodoTable, Arn]
+
+functions:
+  graphql:
+    handler: src/handler.handler
+    events:
+    - http:
+        path: graphql
+        method: post
+        cors: true
+    - http:
+        path: graphql
+        method: get
+        cors: true
+
+resources:
+  Resources:
+    TodoTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: TodoTableLambda
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 5
+          WriteCapacityUnits: 5

@@ -1,0 +1,16 @@
+{
+  "version" : "2017-02-28",
+  "operation": "PutItem",
+  "key": {
+    "id": $util.dynamodb.toDynamoDBJson($context.arguments.input.id),
+  },
+  "attributeValues": {
+    "name": $util.dynamodb.toDynamoDBJson($context.arguments.input.name)
+    #if( $context.arguments.input.description )
+      ,"description": $util.dynamodb.toDynamoDBJson($context.arguments.input.description)
+    #end
+  },
+  "condition": {
+    "expression": "attribute_exists(id)",
+  }
+}

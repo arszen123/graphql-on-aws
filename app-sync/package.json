@@ -1,0 +1,18 @@
+{
+  "name": "app-sync",
+  "version": "1.0.0",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "description": "",
+  "devDependencies": {
+    "aws-sdk": "^2.1088.0",
+    "serverless-appsync-plugin": "^1.12.1"
+  },
+  "dependencies": {
+    "uuid": "^8.3.2"
+  }
+}
